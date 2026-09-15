@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Frame — Image annotator</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">✦</span><span>Frame</span><small>IMAGE ANNOTATOR</small></div>
+    <div class="top-actions"><button class="button ghost" id="resetImage" title="Remove annotations and reload the original image">Reload original</button><button class="button ghost" id="markDone" title="Mark the selected image as complete">Mark as done</button><button class="button primary" id="download" title="Download edited PNG (⌘/Ctrl + S)"><span>↓</span> Download PNG</button></div>
+  </header>
+
+  <main class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-heading"><div><p class="eyebrow">Workspace</p><h1>Images</h1></div><span class="image-count" id="imageCount">0</span></div>
+      <label class="upload-zone" for="fileInput" id="dropZone"><span class="upload-icon">↑</span><strong>Upload images</strong><span>PNG or JPEG · multiple allowed</span><input id="fileInput" type="file" accept="image/png,image/jpeg" multiple></label>
+       <div class="image-list" id="imageList"><div class="empty-state"><span>◌</span><p>No images yet</p><small>Upload a screenshot to get started</small></div></div>
+       <section class="annotation-panel" id="annotationPanel" hidden>
+         <div class="annotation-heading"><p class="eyebrow">Selected image</p><strong>Annotations <span id="annotationCount">0</span></strong></div>
+         <div class="annotation-list" id="annotationList"></div>
+       </section>
+       <div class="sidebar-footer"><span class="status-dot"></span><span>All changes stay local</span></div>
+    </aside>
+
+    <section class="workspace">
+      <div class="toolbar">
+        <div class="tool-group" role="toolbar" aria-label="Drawing tools">
+          <button class="tool active" data-tool="select" title="Select / move (V)"><span>↖</span><b>Select</b></button>
+          <button class="tool" data-tool="rectangle" title="Rectangle (R)"><span>□</span><b>Rectangle</b></button>
+          <button class="tool" data-tool="ellipse" title="Ellipse (E)"><span>○</span><b>Ellipse</b></button>
+          <button class="tool" data-tool="arrow" title="Arrow (A)"><span>↗</span><b>Arrow</b></button>
+          <button class="tool" data-tool="pen" title="Freehand pen (P)"><span>⌁</span><b>Pen</b></button>
+          <button class="tool" data-tool="text" title="Text (T)"><span>T</span><b>Text</b></button>
+        </div>
+        <div class="toolbar-divider"></div>
+        <label class="control color-control" title="Stroke color"><span>Color</span><input type="color" id="colorInput" value="#ff4d6d"></label>
+        <label class="control width-control" title="Stroke width"><span>Width</span><input type="range" id="widthInput" min="1" max="20" value="4"><output id="widthValue">4 px</output></label>
+        <button class="icon-button" id="undo" title="Undo last annotation (⌘/Ctrl + Z)" disabled>↶</button>
+         <button class="icon-button" id="clear" title="Clear annotations" disabled><img class="icon-glyph" src="backspace.svg" alt="Clear"></button>
+      </div>
+      <section class="crop-panel" aria-labelledby="cropHeading">
+        <div class="crop-heading"><div><p class="eyebrow">Edit image</p><h2 id="cropHeading">Crop</h2></div><span class="crop-note">Preview updates live</span></div>
+        <div class="crop-fields">
+          <label>X <input id="cropX" type="number" min="0" step="1" value="291"><span>px</span></label>
+          <label>Y <input id="cropY" type="number" min="0" step="1" value="0"><span>px</span></label>
+          <label>Width <input id="cropWidth" type="number" min="1" step="1" value="1211"><span>px</span></label>
+          <label>Height <input id="cropHeight" type="number" min="1" step="1" value="335"><span>px</span></label>
+        </div>
+        <div class="crop-actions"><button class="button ghost" id="applyCrop" disabled>Apply Crop</button><button class="button primary" id="applyCropAll" disabled>Apply to All</button></div>
+        <p class="crop-status" id="cropStatus">Select an image to set a crop boundary.</p>
+      </section>
+
+      <div class="canvas-stage" id="canvasStage">
+        <div class="welcome" id="welcome"><div class="welcome-icon">✦</div><h2>Your canvas is ready</h2><p>Upload one or more screenshots to start marking them up.</p><label class="button primary" for="fileInput">Choose images</label></div>
+        <div class="canvas-wrap" id="canvasWrap" hidden><canvas id="canvas"></canvas><div class="crop-overlay" id="cropOverlay" aria-hidden="true"><div class="crop-boundary"></div></div><div class="canvas-hint" id="canvasHint">Select a tool, then draw on the image</div></div>
+      </div>
+      <div class="statusbar"><span id="canvasStatus">No image selected</span><span class="shortcut-hint"><kbd>⌘</kbd><span>+</span><kbd>Z</kbd> undo&nbsp;&nbsp; · &nbsp;&nbsp;<kbd>R</kbd> reset</span></div>
+    </section>
+  </main>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script src="app.js"></script>
+</body>
+</html>
