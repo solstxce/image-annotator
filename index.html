@@ -16,7 +16,7 @@
   <main class="app-shell">
     <aside class="sidebar">
        <div class="sidebar-heading"><div><p class="eyebrow">Workspace</p><h1>Images</h1></div><div class="sidebar-heading-actions"><span class="image-count" id="imageCount">0</span><button class="queue-clear" id="clearQueue" type="button" title="Clear the image queue">Clear queue</button></div></div>
-      <label class="upload-zone" for="fileInput" id="dropZone"><span class="upload-icon">↑</span><strong>Upload images</strong><span>PNG or JPEG · multiple allowed</span><input id="fileInput" type="file" accept="image/png,image/jpeg" multiple></label>
+      <label class="upload-zone" for="fileInput" id="dropZone"><span class="upload-icon">↑</span><strong>Upload images</strong><span>PNG or JPEG · multiple allowed · paste from clipboard</span><input id="fileInput" type="file" accept="image/png,image/jpeg" multiple></label>
        <div class="image-list" id="imageList"><div class="empty-state"><span>◌</span><p>No images yet</p><small>Upload a screenshot to get started</small></div></div>
        <section class="annotation-panel" id="annotationPanel" hidden>
          <div class="annotation-heading"><p class="eyebrow">Selected image</p><strong>Annotations <span id="annotationCount">0</span></strong></div>
@@ -63,5 +63,17 @@
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
    <script src="app.js"></script>
+   <script>
+     document.addEventListener('paste', event => {
+       const images = [...(event.clipboardData?.files || [])].filter(file => /^image\/(png|jpeg)$/.test(file.type));
+       if (!images.length) return;
+       event.preventDefault();
+       const transfer = new DataTransfer();
+       images.forEach(file => transfer.items.add(file));
+       const input = document.querySelector('#fileInput');
+       input.files = transfer.files;
+       input.dispatchEvent(new Event('change', { bubbles: true }));
+     });
+   </script>
 </body>
 </html>
