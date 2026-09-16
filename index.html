@@ -10,7 +10,7 @@
 <body>
   <header class="topbar">
     <div class="brand"><span class="brand-mark">✦</span><span>Frame</span><small>IMAGE ANNOTATOR</small></div>
-    <div class="top-actions"><button class="button ghost" id="resetImage" title="Remove annotations and reload the original image">Reload original</button><button class="button ghost" id="markDone" title="Mark the selected image as complete">Mark as done</button><button class="button primary" id="download" title="Download edited PNG (⌘/Ctrl + S)"><span>↓</span> Download PNG</button></div>
+    <div class="top-actions"><button class="button ghost" id="resetImage" title="Remove annotations and reload the original image">Reload original</button><button class="button ghost" id="markDone" title="Mark the selected image as complete">Mark as done</button><button class="button ghost" id="downloadAll" title="Download every loaded image">Download all</button><button class="button ghost" id="downloadZip" title="Download every loaded image as a ZIP">Download ZIP</button><button class="button primary" id="download" title="Download edited PNG (⌘/Ctrl + S)"><span>↓</span> Download PNG</button></div>
   </header>
 
   <main class="app-shell">
@@ -61,6 +61,7 @@
     </section>
   </main>
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
    <script src="app.js"></script>
 </body>
 </html>
